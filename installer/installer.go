@@ -1,11 +1,13 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 )
 
@@ -21,7 +23,8 @@ func main() {
 	filterList := getFilters()
 
 	printMenu(filterList)
-	// filter := getUserSelection()
+	filter := getUserSelection(filterList)
+	fmt.Println(filter)
 
 	// filterName := "ThioleLootFilter.filter"
 	// filterURL := "https://raw.githubusercontent.com/icbat/LootFilter/master/" + filterName
@@ -91,6 +94,18 @@ func printMenu(filters []filter) {
 	fmt.Println("\nAvailable filters:")
 	for index, filter := range filters {
 		fmt.Printf("\t%d : %s\n", index+1, filter.DisplayName)
+	}
+}
+
+func getUserSelection(filterList []filter) filter {
+	for {
+		fmt.Println("Select a filter:  ")
+		reader := bufio.NewReader(os.Stdin)
+		text, _ := reader.ReadString('\n')
+		filterIndex, conversionError := strconv.Atoi(cleanText(text))
+		if conversionError == nil && (filterIndex > 0 && filterIndex <= len(filterList)) {
+			return filterList[filterIndex-1]
+		}
 	}
 }
 
