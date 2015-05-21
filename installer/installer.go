@@ -18,34 +18,16 @@ type filter struct {
 }
 
 func main() {
-	// path := getInstallPath()
+	path := getInstallPath()
 
 	filterList := getFilters()
 
 	printMenu(filterList)
 	filter := getUserSelection(filterList)
-	fmt.Println(filter)
 
-	// filterName := "ThioleLootFilter.filter"
-	// filterURL := "https://raw.githubusercontent.com/icbat/LootFilter/master/" + filterName
-	// fmt.Println("Grabbing " + filterName + " from: " + filterURL)
-	// downloadTo(filterURL, path+"/"+filterName)
-	//
-	// fmt.Println(`Done!
-	//
-	// To finish the install:
-	//
-	// 1) Restart Path of Exile Beta if you have it open
-	// 2) Start game
-	// 3) Login to Beta
-	// 4) Esc > Options
-	// 5) GO to UI tab, at the bottom select the filter, once it says "Filter loaded successfully" no restart required, you are good to go
-	// 6) Any updates to the filter can be reloaded without restarting the game by clicking the "reload" button in options
-	//
-	//
-	// Press any key to exit!`)
-	// reader := bufio.NewReader(os.Stdin)
-	// reader.ReadString('\n')
+	downloadFilter(filter, path)
+
+	printSuccessMessage()
 }
 
 func getInstallPath() string {
@@ -64,7 +46,7 @@ func getInstallPath() string {
 	fmt.Println("Found PoE folder at: " + path)
 
 	fmt.Println("Reticulating splines")
-	return path
+	return path + "/"
 }
 
 func pathExists(path string) bool {
@@ -115,7 +97,9 @@ func cleanText(text string) string {
 	return text
 }
 
-func downloadTo(url string, targetFile string) {
+func downloadFilter(filter filter, targetPath string) {
+	url := filter.FilterURL + filter.FilterName
+	fmt.Println("Grabbing " + filter.DisplayName + " from: " + url)
 	response, getError := http.Get(url)
 	if getError != nil {
 		fmt.Println(" -- Couldn't GET: " + url)
@@ -129,9 +113,29 @@ func downloadTo(url string, targetFile string) {
 		return
 	}
 
+	targetFile := targetPath + filter.FilterName
+
 	fileError := ioutil.WriteFile(targetFile, bytes, 0644)
 	if fileError != nil {
 		fmt.Println(" -- Couldn't write to file at: " + targetFile)
 		return
 	}
+}
+
+func printSuccessMessage() {
+	fmt.Println(`Done!
+
+	To finish the install:
+
+	1) Restart Path of Exile Beta if you have it open
+	2) Start game
+	3) Login to Beta
+	4) Esc > Options
+	5) GO to UI tab, at the bottom select the filter, once it says "Filter loaded successfully" no restart required, you are good to go
+	6) Any updates to the filter can be reloaded without restarting the game by clicking the "reload" button in options
+
+
+	Press any key to exit!`)
+	reader := bufio.NewReader(os.Stdin)
+	reader.ReadString('\n')
 }
