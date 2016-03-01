@@ -1,0 +1,17 @@
+[
+    {
+        "displayName": "Thiole's Main Filter",
+        "filterURL": "https://raw.githubusercontent.com/Thiole/LootFilter/master/",
+        "filterName":  "ThioleLootFilter.filter"
+    },
+    {
+        "displayName": "Beta filter - please test",
+        "filterURL": "https://raw.githubusercontent.com/Thiole/LootFilter/master/",
+        "filterName": "Reworked-PleaseTest5-6-2015.filter"
+    },
+    {
+        "displayName": "Reduced Bases",
+        "filterURL": "https://raw.githubusercontent.com/Thiole/LootFilter/master/",
+        "filterName": "ThioleLootFilterReducedBases.txt"
+    }
+]
